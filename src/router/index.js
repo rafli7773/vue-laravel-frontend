@@ -1,27 +1,57 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Posts from "../views/Posts.vue";
+import axios from "axios";
 
-Vue.use(VueRouter)
+axios.defaults.withCredentials = true;
+
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: "/",
+    name: "Posts",
+    component: Posts,
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+    path: "/posts",
+    component: Posts,
+  },
+  {
+    path: "/posts/:postSlug/show",
+    name: "DetailPost",
+    component: () => import("../views/posts/Detail.vue"),
+  },
+  {
+    path: "/posts/:postSlug/edit",
+    name: "EditPost",
+    component: () => import("../views/posts/Edit.vue"),
+  },
+  {
+    path: "/join",
+    name: "JoinPost",
+    component: () => import("../views/posts/Join.vue"),
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: () => import("../views/auth/Login.vue"),
+  },
+  {
+    path: "/register",
+    name: "Register",
+    component: () => import("../views/auth/Register.vue"),
+  },
+  {
+    path: "/posts/create",
+    name: "CreatePost",
+    component: () => import("../views/posts/Create.vue"),
+  },
+];
 
 const router = new VueRouter({
-  routes
-})
+  mode: "history",
+  routes,
+});
 
-export default router
+export default router;

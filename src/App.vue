@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <NavigationDrawer />
+    <v-main>
+    <v-progress-linear indeterminate color="black" v-if="progressPost"></v-progress-linear>
+      <v-container fluid>
+        <router-view @showSnackbar="getShowsnackbar" @progressPost="handleProgressPost"></router-view>
+      </v-container>
+    </v-main>
+    <Snackbar :showSnackbar="showSnackbar" />
+  </v-app>
 </template>
 
+<script>
+  import NavigationDrawer from './components/NavigationDrawer';
+  import Snackbar from './components/Snackbar';
+  export default {
+    name: 'App',
+    data() {
+      return {
+        showSnackbar: {},
+        progressPost: false,
+      }
+    },
+    components: {
+      NavigationDrawer,
+      Snackbar
+    },
+
+    methods: {
+      getShowsnackbar(data) {
+        this.showSnackbar = data
+      },
+
+      handleProgressPost(condition){
+        this.progressPost = condition
+      }
+    }
+  }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
